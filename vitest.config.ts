@@ -6,6 +6,8 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
 import { playwright } from "@vitest/browser-playwright";
 
+import { MEDIA_TAG } from "./.storybook/mediaTag.ts";
+
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 // Every story runs twice, once per theme, so dark mode gets the same play and axe checks.
 const storybookProject = (theme: "light" | "dark") => ({
@@ -38,8 +40,28 @@ const unitProject = {
   },
 };
 
+const mediaProject = {
+  extends: true,
+  plugins: [
+    storybookTest({
+      configDir: path.join(import.meta.dirname, ".storybook"),
+      tags: { include: [MEDIA_TAG] },
+    }),
+  ],
+  test: {
+    name: "storybook-media",
+    env: { STORYBOOK_MEDIA: "forced-colors-coarse" },
+    browser: {
+      enabled: true,
+      headless: true,
+      provider: playwright({ contextOptions: { forcedColors: "active", hasTouch: true } }),
+      instances: [{ browser: "chromium" as const }],
+    },
+  },
+};
+
 export default defineConfig({
   test: {
-    projects: [unitProject, storybookProject("light"), storybookProject("dark")],
+    projects: [unitProject, storybookProject("light"), storybookProject("dark"), mediaProject],
   },
 });

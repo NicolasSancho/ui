@@ -179,6 +179,9 @@ conformance. Do not claim WCAG conformance without appropriate testing.
   keyboard use. Skip presentational components and assertions that would pass for any
   implementation.
 - Check that a new test can fail: break the code under test and confirm the story fails.
+- Target size and forced colors: call `expectTargetSize`, `expectVisibleBorder` or `expectVisibleFocus` from
+  `.storybook/media.ts` in the `play`, and tag the story `media` so the `storybook-media` project runs it
+  with forced colors and a touch screen. Add a new tagged story file to `src/mediaStories.test.ts`.
 - Injection props (`LinkComponent`, `ImageComponent`): pass a spy component made with `fn()`,
   defined in the story file, and assert on the props it received (`spy.mock.calls`), not on
   classes. Also assert the rendered result by role, so the spy cannot be bypassed.

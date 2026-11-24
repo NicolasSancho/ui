@@ -43,6 +43,12 @@ Use Node 24, the version CI runs.
   contract in `src/brand/`). It reads `theme.css` with a `?raw` import, which needs `css.include` in the
   project config (Vitest returns an empty string for CSS otherwise). There are no `@types/node`; use Vite
   imports instead of `node:` modules.
+  A fourth project, `storybook-media`, runs only the stories tagged `media` (the tag is `MEDIA_TAG` in
+  `.storybook/mediaTag.ts`) with Playwright emulating forced colors and a touch screen (`hasTouch` makes
+  `pointer: coarse` match). Their `play` functions use the helpers in `.storybook/media.ts`, which fail if the
+  emulation is off. A tag filter that matches nothing passes with no tests, so `src/mediaStories.test.ts`
+  lists the story files that must carry the tag. The emulation is Chromium's: real Windows High Contrast and
+  real phones are not tested.
 - `npm run test:package`: builds, then checks the package as a consumer installs it: `publint`,
   `attw` (types and module resolution; the CSS entry point is excluded because attw reads only JS
   and types) and `scripts/test-package.mjs`. The script packs the tarball, installs it with the
