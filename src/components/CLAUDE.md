@@ -133,6 +133,9 @@ conformance. Do not claim WCAG conformance without appropriate testing.
   default outline without providing a visible alternative. An element whose ring would be clipped
   paints an equivalent instead: ProductCard uses an inset ring on `::after`, and Table's scroll region an
   inset outline.
+- Forced colors (Windows High Contrast) removes backgrounds, so a filled button keeps its shape only
+  through its border: `buttonStyles` gives every variant a border, transparent unless the variant colors it.
+- Stories that check target size and forced colors carry the `media` tag; see "Tests".
 - Hover styles use `enabled:hover:*` so disabled controls do not react to hover. Links (Header,
   Footer, ChipLink) use plain `hover:`, because `:enabled` never matches an `<a>`. `Chip`, which is a
   button, sets `pointer-events-none` when disabled instead.

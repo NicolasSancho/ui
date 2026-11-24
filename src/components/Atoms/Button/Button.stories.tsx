@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { expectVisibleBorder, expectVisibleFocus } from "../../../../.storybook/media";
 import { Icon } from "../Icon/Icon";
 import { Button } from "./Button";
 import {
@@ -27,9 +28,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
+  tags: ["media"],
   args: { ...mockedButtonPrimary, onClick: fn() },
   play: async ({ args, canvasElement }) => {
     const button = within(canvasElement).getByRole("button", { name: "Primary Button" });
+    expectVisibleBorder(button);
+
+    // Keyboard focus, so :focus-visible applies.
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    expectVisibleFocus(button);
 
     // Buttons default to type="button", so one inside a form never submits it by accident.
     await expect(button).toHaveAttribute("type", "button");
