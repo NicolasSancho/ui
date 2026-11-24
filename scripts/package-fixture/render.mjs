@@ -14,6 +14,7 @@ import {
   RadioGroup,
   brandToCssVariables,
   brandTokenNames,
+  focusRing,
   validateBrand,
 } from "@nicolassancho/ui";
 
@@ -81,6 +82,9 @@ assert.equal(validateBrand({ "color-primary": ["#ffd84d", "#73b0e6"] })[0]?.kind
 assert.deepEqual(brandToCssVariables({ "radius-button": "9999px" }), {
   "--radius-button": "9999px",
 });
+
+// The focus style is public, so apps can match it on their own elements.
+assert.match(focusRing, /focus-visible:ring-2/);
 
 // A plain component renders on the server.
 assert.match(

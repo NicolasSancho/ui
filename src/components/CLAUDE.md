@@ -108,7 +108,7 @@ Component. The exception is a component that needs interaction, which is a clien
 ## Visual rules
 
 The Foundations / Controls story shows these and asserts the heights. Shared styles live in
-`src/components/styles/` and are not exported from `src/index.js`.
+`src/components/styles/` and are not exported from `src/index.js`, except `focusRing`.
 
 - Control height: small 32px, medium 40px, large 48px, the same for buttons, chips and fields. Buttons
   and chips use `min-h-*`, so a long label can wrap. Fields use `h-*`.
