@@ -43,7 +43,7 @@ const sidebarNavStyles = tv({
     list: "flex flex-col gap-1",
     icon: "flex size-4 shrink-0 items-center justify-center *:size-4",
     link: [
-      "flex items-center gap-2 rounded-sm border-l-2 px-3 py-2 text-sm font-medium text-neutral-900",
+      "flex items-center gap-2 rounded-sm border-l-2 px-3 py-2 text-sm font-medium text-neutral-900 pointer-coarse:min-h-11",
       focusRing,
     ],
   },

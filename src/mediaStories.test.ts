@@ -7,7 +7,15 @@ const stories = import.meta.glob("./components/**/*.stories.tsx", {
   import: "default",
   eager: true,
 });
-const required = ["Atoms/Button/Button", "Atoms/ButtonLink/ButtonLink"];
+const required = [
+  "Atoms/Button/Button",
+  "Atoms/ButtonLink/ButtonLink",
+  "Molecules/Breadcrumbs/Breadcrumbs",
+  "Molecules/Pagination/Pagination",
+  "Molecules/SidebarNav/SidebarNav",
+  "Organisms/Footer/Footer",
+  "Organisms/Header/Header",
+];
 
 test.each(required)("%s has a story tagged for the media project", (name) => {
   const source = stories[`./components/${name}.stories.tsx`] as string;

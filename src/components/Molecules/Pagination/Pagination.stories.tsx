@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { expect, fn, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Pagination } from "./Pagination";
 import {
   mockedPaginationFirst,
@@ -33,8 +34,10 @@ export const FirstPage: Story = {
 };
 
 export const MiddlePage: Story = {
+  tags: ["media"],
   args: mockedPaginationMiddle,
   play: async ({ canvasElement }) => {
+    expectTargetSize(within(canvasElement).getAllByRole("link"));
     const nav = within(canvasElement).getByRole("navigation", { name: "Pagination" });
 
     await expect(nav).toHaveTextContent("Page 3 of 5");

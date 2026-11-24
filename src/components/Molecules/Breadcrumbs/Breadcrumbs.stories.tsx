@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Breadcrumbs } from "./Breadcrumbs";
 import {
   mockedBreadcrumbsDefault,
@@ -32,9 +33,11 @@ const linkSpy = fn(
 
 // No LinkComponent here: the items render as plain anchors, so no setup is needed.
 export const Default: Story = {
+  tags: ["media"],
   args: mockedBreadcrumbsDefault,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    expectTargetSize(canvas.getAllByRole("link"));
 
     await expect(canvas.getByRole("navigation", { name: "Breadcrumb" })).toBeInTheDocument();
 

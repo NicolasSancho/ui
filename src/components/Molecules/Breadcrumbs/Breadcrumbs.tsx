@@ -27,7 +27,7 @@ const breadcrumbsStyles = tv({
   slots: {
     list: "flex items-center gap-1",
     item: "flex items-center gap-1",
-    link: linkStyles({ variant: "nav" }),
+    link: linkStyles({ variant: "nav", className: "justify-center" }),
     current: "text-neutral-900",
     separator: "text-neutral-400",
   },

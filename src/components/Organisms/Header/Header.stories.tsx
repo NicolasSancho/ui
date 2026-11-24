@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Header } from "./Header";
 import { mockedHeaderBrandOnly, mockedHeaderDefault, mockedHeaderNoNav } from "./headerMock";
 
@@ -27,6 +28,7 @@ const linkSpy = fn(
 
 // No LinkComponent here: the navigation renders plain anchors, so no setup is needed.
 export const Default: Story = {
+  tags: ["media"],
   args: mockedHeaderDefault,
   play: async ({ canvasElement }) => {
     // The page-level <header> is the banner landmark, and everything renders inside it.
@@ -40,6 +42,7 @@ export const Default: Story = {
 
     // One labelled navigation holds the links, in order.
     const nav = within(banner).getByRole("navigation", { name: "Main" });
+    expectTargetSize(within(nav).getAllByRole("link"));
     await expect(
       within(nav)
         .getAllByRole("link")

@@ -122,7 +122,7 @@ The Foundations / Controls story shows these and asserts the heights. Shared sty
 ## Accessibility
 
 Accessibility is a design goal. Follow the practices below for all new and modified
-components. These practices support WCAG 2.1 AA, but do not by themselves establish
+components. These practices support WCAG 2.2 AA, but do not by themselves establish
 conformance. Do not claim WCAG conformance without appropriate testing.
 
 - Interactive elements must use semantic HTML elements such as `<button>` and `<a>`, never
@@ -133,6 +133,11 @@ conformance. Do not claim WCAG conformance without appropriate testing.
   default outline without providing a visible alternative. An element whose ring would be clipped
   paints an equivalent instead: ProductCard uses an inset ring on `::after`, and Table's scroll region an
   inset outline.
+- Target size: links in lists are at least 24px in both directions, and 44px on touch screens
+  (`pointer-coarse:`), through `targetSize` from `src/components/styles/targetSize.ts`: the `nav` link
+  style (Header, Footer, Breadcrumbs) and Pagination; SidebarNav links are 44px tall on touch. Their
+  stories test it. Not covered yet: buttons and chips on touch (32/40px), Table sort links (20px, spaced
+  one per header cell) and a small CartIcon (16px). Links in text (`TextLink`, `inline`) are exempt.
 - Forced colors (Windows High Contrast) removes backgrounds, so a filled button keeps its shape only
   through its border: `buttonStyles` gives every variant a border, transparent unless the variant colors it.
 - Stories that check target size and forced colors carry the `media` tag; see "Tests".

@@ -1,6 +1,7 @@
 import React from "react";
 import { tv } from "../../styles/tv.js";
 import { linkStyles } from "../../styles/linkStyles.js";
+import { targetSize } from "../../styles/targetSize.js";
 import type { LinkComponentType } from "../../types/linkComponent.js";
 
 export interface PaginationProps {
@@ -34,7 +35,7 @@ const paginationStyles = tv({
   slots: {
     base: "flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-600",
     nav: "flex items-center gap-3",
-    link: linkStyles({ variant: "inline" }),
+    link: linkStyles({ variant: "inline", className: targetSize }),
   },
 });
 
