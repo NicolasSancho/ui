@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Footer } from "./Footer";
 import { mockedFooterColumnsOnly, mockedFooterDefault, mockedFooterMinimal } from "./footerMock";
 
@@ -27,8 +28,10 @@ const linkSpy = fn(
 
 // No LinkComponent here: the links render as plain anchors, so no setup is needed.
 export const Default: Story = {
+  tags: ["media"],
   args: mockedFooterDefault,
   play: async ({ canvasElement }) => {
+    expectTargetSize(within(canvasElement).getAllByRole("link"));
     const canvas = within(canvasElement);
 
     // A page-level <footer> is the contentinfo landmark.

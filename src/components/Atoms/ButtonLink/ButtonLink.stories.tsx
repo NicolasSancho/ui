@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { expectVisibleBorder } from "../../../../.storybook/media";
 import type { LinkComponentProps, LinkComponentType } from "../../types/linkComponent";
 import { ButtonLink } from "./ButtonLink";
 import {
@@ -34,9 +35,11 @@ const linkSpy = fn(
 );
 
 export const Primary: Story = {
+  tags: ["media"],
   args: mockedButtonLinkPrimary,
   play: async ({ canvasElement }) => {
     const link = within(canvasElement).getByRole("link", { name: "Shop the collection" });
+    expectVisibleBorder(link);
 
     await expect(link).toHaveAttribute("href", "/products");
   },

@@ -2,6 +2,9 @@
 export * from "./brand/brand.js";
 export * from "./brand/validateBrand.js";
 
+// The keyboard focus style, for app elements that sit next to library ones
+export { focusRing } from "./components/styles/focusRing.js";
+
 // Types shared by components
 export * from "./components/types/linkComponent.js";
 

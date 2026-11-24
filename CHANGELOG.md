@@ -5,6 +5,32 @@ All notable changes to `@nicolassancho/ui` are listed here. Up to 4.11.0 it was 
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## 5.2.0 - 2026-11-24
+
+Accessibility gaps found by a consumer: buttons in forced colors, the size of links in lists, and the focus
+style for an app's own elements.
+
+### Added
+
+- `focusRing`: the library's keyboard focus classes, so an app's own links and buttons next to library ones
+  focus the same way.
+
+### Changed
+
+- Every button variant has a border, transparent unless the variant colors it, so filled buttons
+  (`Button`, `ButtonLink`) keep their outline in forced colors (Windows High Contrast).
+- Links in lists (Header, Footer, Breadcrumbs, Pagination) are at least 24px in each direction, and 44px
+  on touch screens. SidebarNav links are 44px tall on touch screens. Links in text (`TextLink`) do not
+  change. Tests enforce the 24px minimum.
+
+### Migrating
+
+- Filled and text buttons are 2px wider (the border). Single-line heights do not change; a label that
+  wraps makes the button 2px taller.
+- Links in lists are taller on touch screens, so lists such as the footer's take more room on phones.
+- Links in lists (Header, Footer, Breadcrumbs, Pagination) are now `inline-flex`: spaces at the start or
+  end of the children of a custom `LinkComponent` collapse. Put the space outside the link, or inside an inner element.
+
 ## 5.1.1 - 2026-11-12
 
 ### Changed

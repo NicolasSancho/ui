@@ -1,6 +1,7 @@
 import type { LinkComponentProps } from "../../types/linkComponent";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Icon } from "../../Atoms/Icon/Icon";
 import { Text } from "../../Atoms/Text/Text";
 import { Popover } from "../Popover/Popover";
@@ -50,8 +51,10 @@ const Tenant = (
 );
 
 export const Default: Story = {
+  tags: ["media"],
   args: mockedSidebarNavDefault,
   play: async ({ canvasElement }) => {
+    expectTargetSize(within(canvasElement).getAllByRole("link"));
     const nav = within(canvasElement).getByRole("navigation", { name: "Main" });
     const links = within(nav).getAllByRole("link");
 

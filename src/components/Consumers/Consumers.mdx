@@ -524,7 +524,8 @@ item for the page the user is on, which an app usually derives with `usePathname
 
 ## What the package exposes
 
-- `@nicolassancho/ui`: every component and its types.
+- `@nicolassancho/ui`: every component and its types, the brand contract, and `focusRing` (the
+  library's keyboard focus classes).
 - `@nicolassancho/ui/styles/theme.css`: the design tokens.
 
 Other paths, such as files inside `dist/`, are not part of the public API. The package is ESM only. It
@@ -538,3 +539,17 @@ works in bundlers (Next.js, Vite, webpack) and in Node's native ESM loader.
 - An icon takes the text color of the element around it, so inside a button or a link it matches the
   label. Pass `color` to set a token color instead.
 - Use `alt=""` for purely decorative images, and a real description otherwise.
+- Give your own links and buttons next to library ones the same keyboard focus with `focusRing`, a string of
+  Tailwind classes, joined with your own:
+  ```tsx
+  import { focusRing } from "@nicolassancho/ui";
+  <a href="/contact" className={`${focusRing} rounded-sm`}>
+    Contact
+  </a>;
+  ```
+  Use the string whole rather than overriding parts of it: its classes may change in a minor release, and
+  the outline it keeps for forced colors (Windows High Contrast) is what shows focus there. The ring's
+  offset is painted in the `surface` color, so on a colored section it shows as a halo of that color. It is
+  in the compiled JS your `@source` line already scans, so no extra setup is needed.
+- Links in lists (Header, Footer, Breadcrumbs, Pagination, SidebarNav) are at least 24px in each direction, and
+  44px on touch screens. Links inside text (`TextLink`) keep the line height.
