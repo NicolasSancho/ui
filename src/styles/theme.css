@@ -153,3 +153,17 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 }
+
+/*
+  The minimum size of a link or control outside a sentence: 24px (WCAG 2.5.8), and 44px on touch
+  screens (2.5.5). Components read it in one class per size, so an app's own height class replaces it.
+*/
+:root {
+  --target-size: 24px;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --target-size: 44px;
+  }
+}

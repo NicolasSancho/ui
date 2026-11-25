@@ -17,8 +17,10 @@ export const buttonStyles = tv({
       outline: "border border-neutral-400 bg-surface text-neutral-900",
     },
     size: {
-      small: "min-h-8 gap-1 text-sm px-2 py-1",
-      medium: "min-h-10 gap-2 text-sm px-4 py-2",
+      small:
+        "min-h-[max(--spacing(8),var(--target-size))] min-w-(--target-size) gap-1 text-sm px-2 py-1",
+      medium:
+        "min-h-[max(--spacing(10),var(--target-size))] min-w-(--target-size) gap-2 text-sm px-4 py-2",
       large: "min-h-12 gap-3 text-lg px-6 py-2",
     },
     disabled: {

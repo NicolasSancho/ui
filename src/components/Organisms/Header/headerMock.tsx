@@ -3,6 +3,8 @@ import { HeaderProps } from "./Header";
 import { Button } from "../../Atoms/Button/Button";
 import { CartIcon } from "../../Molecules/CartIcon/CartIcon";
 import { Input } from "../../Molecules/Input/Input";
+import { targetSize } from "../../styles/targetSize";
+import { tv } from "../../styles/tv";
 
 const Brand: React.FC = () => (
   <a href="/" className="whitespace-nowrap text-xl font-bold text-neutral-900">
@@ -23,8 +25,10 @@ const Search: React.FC = () => (
   </form>
 );
 
+const cartLink = tv({ base: [targetSize, "justify-center rounded-sm"] });
+
 const Cart: React.FC = () => (
-  <a href="/cart" className="inline-flex rounded-sm p-1">
+  <a href="/cart" className={cartLink()}>
     <CartIcon count={2} />
   </a>
 );

@@ -20,7 +20,7 @@ export interface RadioButtonProps {
 }
 
 const radioButtonStyles = tv({
-  base: "flex items-center gap-2 cursor-pointer",
+  base: "flex min-h-(--target-size) items-center gap-2 cursor-pointer",
   slots: {
     input: ["rounded-full accent-primary", focusRing],
   },

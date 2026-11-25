@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
 import { expect, fn, userEvent, within } from "storybook/test";
-import { expectVisibleBorder, expectVisibleFocus } from "../../../../.storybook/media";
+import {
+  expectMediaEmulated,
+  expectTargetSize,
+  expectVisibleBorder,
+  expectVisibleFocus,
+} from "../../../../.storybook/media";
 import { Icon } from "../Icon/Icon";
 import { Button } from "./Button";
 import {
@@ -33,6 +38,7 @@ export const Primary: Story = {
   play: async ({ args, canvasElement }) => {
     const button = within(canvasElement).getByRole("button", { name: "Primary Button" });
     expectVisibleBorder(button);
+    expectTargetSize([button]);
 
     // Keyboard focus, so :focus-visible applies.
     await userEvent.tab();
@@ -81,6 +87,17 @@ export const Large: Story = {
 
 export const Small: Story = {
   args: mockedButtonSmall,
+};
+
+// An app's height class replaces the library's on every device, touch screens included.
+export const CustomHeight: Story = {
+  tags: ["media"],
+  args: { ...mockedButtonSmall, className: "min-h-12" },
+  play: async ({ canvasElement }) => {
+    expectMediaEmulated();
+    const button = within(canvasElement).getByRole("button", { name: "Small Button" });
+    await expect(button.getBoundingClientRect().height).toBe(48);
+  },
 };
 
 export const WithIcon: Story = {

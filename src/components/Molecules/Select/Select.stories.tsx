@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Select } from "./Select";
 import { mockedSelect } from "./selectMock";
 
@@ -24,9 +25,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["media"],
   args: { ...mockedSelect, defaultValue: "DRAFT" },
   play: async ({ canvasElement }) => {
     const select = within(canvasElement).getByLabelText("Status");
+    expectTargetSize([select]);
 
     await expect(select).toHaveValue("DRAFT");
     await expect(select).toHaveAttribute("name", "status");

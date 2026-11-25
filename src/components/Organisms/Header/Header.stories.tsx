@@ -43,6 +43,17 @@ export const Default: Story = {
     // One labelled navigation holds the links, in order.
     const nav = within(banner).getByRole("navigation", { name: "Main" });
     expectTargetSize(within(nav).getAllByRole("link"));
+    const search = within(banner).getByRole("searchbox", { name: "Search products" });
+    const searchButton = within(banner).getByRole("button", { name: "Search" });
+    expectTargetSize([
+      search,
+      searchButton,
+      within(banner).getByRole("link", { name: "Shopping cart, 2 items" }),
+    ]);
+    // The field and its button share one height, which grows to 44px on touch screens.
+    const fieldHeight = search.getBoundingClientRect().height;
+    await expect(fieldHeight).toBe(searchButton.getBoundingClientRect().height);
+    await expect(fieldHeight).toBe(matchMedia("(pointer: coarse)").matches ? 44 : 40);
     await expect(
       within(nav)
         .getAllByRole("link")

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
 import { expect, userEvent, within } from "storybook/test";
 import { useEffect, useState } from "react";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { RadioGroup } from "./RadioGroup";
 import {
   mockedRadioGroupDefault,
@@ -66,9 +67,14 @@ export const FourColumns: Story = {
 
 // Interaction tests: they run in the Interactions panel and in `npm test`.
 export const SelectsOnClick: Story = {
+  tags: ["media"],
   args: { ...mockedRadioGroupDefault, label: "Choose an option" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // The label is the target: a click anywhere on it selects the radio.
+    const labels = canvas.getAllByRole("radio").map((radio) => radio.closest("label"));
+    await expect(labels).not.toContain(null);
+    expectTargetSize(labels.filter((label) => label !== null));
 
     // The legend gives the group its accessible name.
     await expect(canvas.getByRole("group", { name: "Choose an option" })).toBeInTheDocument();

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../../Atoms/Button/Button";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Popover } from "./Popover";
 import { mockedPopoverDrawer, mockedPopoverMenu, mockedPopoverStart } from "./popoverMock";
 
@@ -171,6 +172,7 @@ export const FormInside: Story = {
 };
 
 export const Drawer: Story = {
+  tags: ["media"],
   // A drawer is placed against the viewport, so the docs page shows it in its own small frame.
   parameters: { docs: { story: { inline: false, iframeHeight: 360 } } },
   args: {
@@ -194,6 +196,7 @@ export const Drawer: Story = {
 
     await userEvent.click(trigger);
     await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "true"));
+    expectTargetSize([trigger, canvas.getByRole("button", { name: "Close menu" })]);
 
     // A full-height panel against the left edge of the screen.
     const panel = panelOf(canvas.getByRole("link", { name: "Products" }));

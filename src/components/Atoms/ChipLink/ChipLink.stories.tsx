@@ -1,6 +1,7 @@
 import type { LinkComponentProps } from "../../types/linkComponent";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { ChipLink } from "./ChipLink";
 import { mockedChipLinkDefault, mockedChipLinkSelected } from "./chipLinkMock";
 
@@ -27,9 +28,11 @@ const linkSpy = fn(
 
 // No LinkComponent here: the chip renders a plain anchor, so no setup is needed.
 export const Default: Story = {
+  tags: ["media"],
   args: mockedChipLinkDefault,
   play: async ({ canvasElement }) => {
     const link = within(canvasElement).getByRole("link", { name: "Shirts" });
+    expectTargetSize([link]);
 
     await expect(link).toHaveAttribute("href", "/products?category=shirts");
     // Not selected: no current state.

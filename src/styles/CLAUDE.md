@@ -45,6 +45,9 @@ Rules for `src/styles/`. The root `CLAUDE.md` still applies. The `tv()` and tail
     (headings, via `Text font="display"`), and the consumer sets `--font-sans` and optionally
     `--font-display` (with `next/font` in Next.js). `--font-display` defaults to `var(--font-sans)`.
   - Breakpoints: `xs`, `sm`, `md`, `lg`, `xl`. **`md` is 940px**, not Tailwind's 768.
+  - Target size: `--target-size`, outside `@theme`, is 24px and 44px under `@media (pointer: coarse)`. It is
+    fixed, not a brand token: a brand token holds one value and this one depends on the pointer. Controls
+    and `targetSize` read it (see "Visual rules" in `src/components/CLAUDE.md`).
 - Tokens are `--color-*` / `--text-*` / `--breakpoint-*` variables in `@theme`, so opacity
   works on every color (e.g. `bg-neutral-900/50`). Form controls are transparent by default
   in v4: give inputs an explicit background (`bg-surface`) and text color (`text-neutral-900`).
