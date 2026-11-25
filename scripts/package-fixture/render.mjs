@@ -15,6 +15,7 @@ import {
   brandToCssVariables,
   brandTokenNames,
   focusRing,
+  targetSize,
   validateBrand,
 } from "@nicolassancho/ui";
 
@@ -85,6 +86,7 @@ assert.deepEqual(brandToCssVariables({ "radius-button": "9999px" }), {
 
 // The focus style is public, so apps can match it on their own elements.
 assert.match(focusRing, /focus-visible:ring-2/);
+assert.match(targetSize, /min-h-\(--target-size\)/);
 
 // A plain component renders on the server.
 assert.match(

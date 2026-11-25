@@ -55,7 +55,7 @@ Use Node 24, the version CI runs.
   peer dependencies in a temp project and, in plain Node, renders Button, Header (`LinkComponent`), a ButtonLink with forwarded `<a>` attributes,
   ProductGrid (`ImageComponent`), an uncontrolled RadioGroup and an Input with its label, description and error, a Popover (a client component), asserts that the files
   with `"use client"` in `dist/` are the source files that start with it and that none of them is in `dist/brand/`, calls
-  `validateBrand` and `brandToCssVariables`, checks that `focusRing` is exported, and compiles the Consumers-guide Tailwind setup. The compiled CSS is also checked against the
+  `validateBrand` and `brandToCssVariables`, checks that `focusRing` and `targetSize` are exported, and compiles the Consumers-guide Tailwind setup. The compiled CSS is also checked against the
   brand contract: every `--color-*`, `--radius-*` and `--font-*` variable a utility reads must be a brand token or
   on the fixed list in `styles.mjs`. It cannot test Next.js
   Server/Client behavior: that needs a real Next app. Add a check there only for a packaging risk
