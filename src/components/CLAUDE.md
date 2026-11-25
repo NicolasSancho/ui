@@ -53,14 +53,15 @@ Component. The exception is a component that needs interaction, which is a clien
   `LinkComponentType` from `src/components/types/linkComponent.ts` (exported, so apps can type
   their own link wrappers): `"a"` (the default) or a component taking `LinkComponentProps`. It
   passes `href`, `className` and `children` (and `aria-current` on `ChipLink` and `SidebarNav`,
-  which `next/link` forwards). Consumers pass a framework link (e.g. `next/link`) to get
-  client-side navigation. Do not type it as `React.ElementType<...>`: that accepts elements that
+  and `lang`, `hrefLang` and `aria-current` on `Footer`, which `next/link` forwards). Consumers
+  pass a framework link (e.g. `next/link`) to get client-side navigation. Do not type it as `React.ElementType<...>`: that accepts elements that
   are not links and rejects forwarding attributes.
 - The single-link atoms (`ButtonLink`, `ChipLink`, `TextLink`) take every `<a>` attribute
   (`LinkAttributes`) and spread it first, so the props the component owns (`href`, `className`,
   and `aria-current` on `ChipLink`) win. Their `Attributes` stories check that the attributes and
   the ref arrive, and ChipLink's that a passed `aria-current` loses to `selected`. Lists of
-  links (Header, Footer, Breadcrumbs) take only `{ label, href }` per item.
+  links (Header, Breadcrumbs) take only `{ label, href }` per item. Footer links also take `lang`,
+  `hrefLang` and `current` (a language list needs them; its `Languages` story checks them).
 - Images render through the `Image` atom, which takes an optional `ImageComponent`, defaulting
   to `"img"`, and forwards `src`, `alt`, `className` and any other `<img>` attribute
   (`srcSet`, `sizes`, `width`, `height`, `loading`). Components that show images expose those
@@ -120,7 +121,8 @@ The Foundations / Controls story shows these and asserts the heights. Shared sty
 - Links: `linkStyles`. `inline` is always underlined, for links in content. `nav` underlines on hover,
   for lists of links. SidebarNav items are a list item style of their own. `TextLink` is the exported
   `inline` link, so apps do not copy link classes.
-- Font weight: 400 body, 500 controls and labels, 600 titles and headings, 700 display text only.
+- Font weight: 400 body, 500 controls and labels, 600 titles, headings and the current link in a
+  list of links (Footer), 700 display text only.
 - Color: one brand color (`primary`), neutrals, and semantic colors for status. `outline` is the default for
   a second action. `secondary` is a filled slot with as much emphasis as `primary`, which an app can color.
 

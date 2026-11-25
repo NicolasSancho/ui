@@ -1,7 +1,7 @@
 import React from "react";
-import { FooterProps } from "./Footer";
+import { FooterColumn, FooterProps } from "./Footer";
 
-const mockedColumns: FooterProps["columns"] = [
+const mockedColumns: FooterColumn[] = [
   {
     title: "Shop",
     links: [
@@ -42,6 +42,21 @@ export const mockedFooterDefault: FooterProps = {
 // Only the legal line: no brand and no columns, so no navigation landmark is rendered.
 export const mockedFooterMinimal: FooterProps = {
   legal: "© 2026 ACME. All rights reserved.",
+};
+
+// A language list: each label in its own language, the current language marked.
+export const mockedFooterLanguages: FooterProps = {
+  ...mockedFooterDefault,
+  columns: [
+    ...mockedColumns,
+    {
+      title: "Language",
+      links: [
+        { label: "English", href: "/en/", hrefLang: "en", current: true },
+        { label: "Español", href: "/es/", lang: "es", hrefLang: "es" },
+      ],
+    },
+  ],
 };
 
 // Columns without a brand block.

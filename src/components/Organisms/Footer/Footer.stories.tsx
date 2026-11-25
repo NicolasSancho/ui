@@ -1,9 +1,14 @@
-import type { ReactNode } from "react";
+import type { LinkComponentProps } from "../../types/linkComponent";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, within } from "storybook/test";
 import { expectTargetSize } from "../../../../.storybook/media";
 import { Footer } from "./Footer";
-import { mockedFooterColumnsOnly, mockedFooterDefault, mockedFooterMinimal } from "./footerMock";
+import {
+  mockedFooterColumnsOnly,
+  mockedFooterDefault,
+  mockedFooterLanguages,
+  mockedFooterMinimal,
+} from "./footerMock";
 
 const meta = {
   title: "Organisms/Footer",
@@ -17,14 +22,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Spy standing in for a framework link (e.g. next/link): records the props it receives.
-const linkSpy = fn(
-  ({ href, children, className }: { href: string; children: ReactNode; className?: string }) => (
-    <a href={href} className={className}>
-      {children}
-    </a>
-  )
-);
+// Spy standing in for a framework link (e.g. next/link): records the props it receives and,
+// like next/link, puts the other attributes on the <a>.
+const linkSpy = fn(({ children, ...props }: LinkComponentProps) => <a {...props}>{children}</a>);
 
 // No LinkComponent here: the links render as plain anchors, so no setup is needed.
 export const Default: Story = {
@@ -81,7 +81,7 @@ export const ColumnsOnly: Story = {
 };
 
 export const CustomLink: Story = {
-  args: { ...mockedFooterDefault, LinkComponent: linkSpy },
+  args: { ...mockedFooterLanguages, LinkComponent: linkSpy },
   beforeEach: () => {
     linkSpy.mockClear();
   },
@@ -90,11 +90,18 @@ export const CustomLink: Story = {
     const received = linkSpy.mock.calls.map(([props]) => props);
 
     // Every link goes through the injected component with its href, a class and its label.
-    await expect(received).toHaveLength(7);
+    await expect(received).toHaveLength(9);
     await expect(received).toContainEqual(
       expect.objectContaining({ href: "/help/returns", children: "Returns" })
     );
     await expect(received.every(({ className }) => Boolean(className))).toBe(true);
+    // The language attributes and the current mark reach it too.
+    await expect(received).toContainEqual(
+      expect.objectContaining({ href: "/en/", hrefLang: "en", "aria-current": "page" })
+    );
+    await expect(received).toContainEqual(
+      expect.objectContaining({ href: "/es/", lang: "es", hrefLang: "es" })
+    );
     // The result is what the user gets: a real link.
     await expect(canvas.getByRole("link", { name: "Returns" })).toHaveAttribute(
       "href",
@@ -120,5 +127,32 @@ export const WideScreen: Story = {
     // Full-bleed bar, inset content: at least the space left by a 1152px container.
     await expect(bar.width).toBe(2000);
     await expect(legal.left - bar.left).toBeGreaterThanOrEqual((2000 - 1152) / 2);
+  },
+};
+
+// A language list. The current link is marked by weight as well as color, so it still shows in
+// forced colors, where colors are replaced.
+export const Languages: Story = {
+  tags: ["media"],
+  args: mockedFooterLanguages,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const english = canvas.getByRole("link", { name: "English" });
+    const spanish = canvas.getByRole("link", { name: "Español" });
+
+    // Only the current link is marked.
+    await expect(canvasElement.querySelectorAll("[aria-current]")).toHaveLength(1);
+    await expect(english).toHaveAttribute("aria-current", "page");
+
+    // The attributes appear only where a link sets them.
+    await expect(spanish).toHaveAttribute("lang", "es");
+    await expect(spanish).toHaveAttribute("hreflang", "es");
+    await expect(english).toHaveAttribute("hreflang", "en");
+    await expect(english).not.toHaveAttribute("lang");
+    await expect(canvas.getByRole("link", { name: "Ceramics" })).not.toHaveAttribute("hreflang");
+
+    const weight = (el: HTMLElement) => Number(getComputedStyle(el).fontWeight);
+    await expect(weight(english)).toBeGreaterThan(weight(spanish));
+    expectTargetSize([english, spanish]);
   },
 };

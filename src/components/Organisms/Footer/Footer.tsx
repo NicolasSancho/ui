@@ -3,15 +3,30 @@ import { tv } from "../../styles/tv.js";
 import { linkStyles } from "../../styles/linkStyles.js";
 import { Text } from "../../Atoms/Text/Text.js";
 import { Container } from "../../Layouts/Container/Container.js";
-import type { LinkComponentType } from "../../types/linkComponent.js";
+import type { LinkAttributes, LinkComponentType } from "../../types/linkComponent.js";
 
 export interface FooterColumn {
   /** Column heading, rendered as an `<h2>`. */
   title: string;
-  links: {
-    label: string;
-    href: string;
-  }[];
+  /** The column's links, in order. */
+  links: FooterLink[];
+}
+
+/** A link in a footer column. */
+export interface FooterLink {
+  /** Visible text of the link. */
+  label: string;
+  /** Link target. */
+  href: string;
+  /** Language of the label, when it differs from the page's (e.g. "Português" on a Spanish page). */
+  lang?: LinkAttributes["lang"];
+  /** Language of the linked page. Advisory: browsers do not enforce it. */
+  hrefLang?: LinkAttributes["hrefLang"];
+  /**
+   * Whether the link points to the page the user is on, such as the current language in a
+   * language list. It sets `aria-current="page"` and makes the link semibold. The app sets it.
+   */
+  current?: boolean;
 }
 
 export interface FooterProps {
@@ -25,8 +40,9 @@ export interface FooterProps {
   /** Legal line shown under a divider, such as the copyright. */
   legal?: React.ReactNode;
   /**
-   * Component used to render each link. Receives `href`, `className` and `children`, so a
-   * framework link (e.g. `next/link`) can be passed directly. Defaults to a plain `<a>`.
+   * Component used to render each link. Receives `href`, `className`, `children`, `lang`,
+   * `hrefLang` and `aria-current` (`undefined` when the link does not set them, so no attribute is
+   * rendered), so a framework link (e.g. `next/link`) can be passed directly. Defaults to a plain `<a>`.
    * Define it outside the render function: an inline definition remounts the links.
    */
   LinkComponent?: LinkComponentType;
@@ -48,6 +64,11 @@ const footerStyles = tv({
     list: "mt-3 flex flex-col gap-2",
     link: linkStyles({ variant: "nav" }),
     legal: "border-t border-neutral-200 pt-6 text-sm text-neutral-600",
+  },
+  variants: {
+    current: {
+      true: { link: "font-semibold text-neutral-900" },
+    },
   },
 });
 
@@ -81,9 +102,15 @@ export const Footer: React.FC<FooterProps> = ({
                       {title}
                     </Text>
                     <ul className={styles.list()}>
-                      {links.map(({ label, href }) => (
+                      {links.map(({ label, href, lang, hrefLang, current }) => (
                         <li key={`${label}-${href}`}>
-                          <LinkComponent href={href} className={styles.link()}>
+                          <LinkComponent
+                            href={href}
+                            lang={lang}
+                            hrefLang={hrefLang}
+                            aria-current={current ? "page" : undefined}
+                            className={styles.link({ current: Boolean(current) })}
+                          >
                             {label}
                           </LinkComponent>
                         </li>
