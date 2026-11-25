@@ -5,6 +5,17 @@ All notable changes to `@nicolassancho/ui` are listed here. Up to 4.11.0 it was 
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## 5.4.0 - 2026-11-25
+
+Footer links can describe their language and mark the current page, so a footer column can be a language list.
+
+### Added
+
+- `FooterLink`, the type of a link in a `Footer` column, with three optional fields: `lang` (the label's language),
+  `hrefLang` (the linked page's language) and `current`, which sets `aria-current="page"` and makes the link
+  semibold, so it still stands out in forced colors. `LinkComponent` also receives `lang`, `hrefLang` and
+  `aria-current`, `undefined` when a link does not set them.
+
 ## 5.3.0 - 2026-11-24
 
 Controls are 44px tall on touch screens, and an interactive CartIcon shows its focus ring again.
