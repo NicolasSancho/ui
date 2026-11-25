@@ -11,6 +11,7 @@ const required = [
   "Atoms/Button/Button",
   "Atoms/ButtonLink/ButtonLink",
   "Molecules/Breadcrumbs/Breadcrumbs",
+  "Molecules/CartIcon/CartIcon",
   "Molecules/Pagination/Pagination",
   "Molecules/SidebarNav/SidebarNav",
   "Organisms/Footer/Footer",

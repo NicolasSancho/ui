@@ -104,6 +104,8 @@ Component. The exception is a component that needs interaction, which is a clien
     stay). The radius roles (`rounded-button`, `rounded-field`, `rounded-card`) work because
     `src/components/styles/tv.ts` adds them to tailwind-merge's radius scale. A new custom name
     needs the same entry and a test that a consumer class still wins; colors are safe.
+- With `slots`, a variant value must be a string or a slot object (`true: { base: [...] }`). An array
+  (`true: ["a", focusRing]`) is silently dropped (tailwind-variants 3.3.1; see CartIcon).
 
 ## Visual rules
 

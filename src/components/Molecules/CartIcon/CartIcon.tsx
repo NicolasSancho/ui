@@ -21,7 +21,7 @@ const cartIconStyles = tv({
   base: "relative inline-flex items-center",
   variants: {
     interactive: {
-      true: ["cursor-pointer rounded-sm", focusRing],
+      true: { base: ["cursor-pointer rounded-sm", focusRing] },
     },
   },
   slots: {

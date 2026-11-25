@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
+import { expectVisibleFocus } from "../../../../.storybook/media";
 import { CartIcon } from "./CartIcon";
 import {
   mockedCartIconEmpty,
@@ -36,12 +37,16 @@ export const Empty: Story = {
 };
 
 export const SingleItem: Story = {
+  tags: ["media"],
   args: mockedCartIconSingleItem,
   play: async ({ canvasElement }) => {
     // One item reads in the singular.
-    await expect(
-      within(canvasElement).getByRole("button", { name: "Shopping cart, 1 item" })
-    ).toBeVisible();
+    const button = within(canvasElement).getByRole("button", { name: "Shopping cart, 1 item" });
+    await expect(button).toBeVisible();
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    expectVisibleFocus(button);
   },
 };
 
