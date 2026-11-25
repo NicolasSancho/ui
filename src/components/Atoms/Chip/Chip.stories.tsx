@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Chip } from "./Chip";
 import {
   mockedChipDefault,
@@ -21,9 +22,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["media"],
   args: { ...mockedChipDefault, onClick: fn() },
   play: async ({ args, canvasElement }) => {
     const chip = within(canvasElement).getByRole("button", { name: "All" });
+    expectTargetSize([chip]);
 
     // A chip is a toggle button: pressed state is exposed, and it never submits by accident.
     await expect(chip).toHaveAttribute("aria-pressed", "false");

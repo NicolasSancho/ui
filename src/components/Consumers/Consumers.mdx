@@ -524,8 +524,8 @@ item for the page the user is on, which an app usually derives with `usePathname
 
 ## What the package exposes
 
-- `@nicolassancho/ui`: every component and its types, the brand contract, and `focusRing` (the
-  library's keyboard focus classes).
+- `@nicolassancho/ui`: every component and its types, the brand contract, `focusRing` (the
+  library's keyboard focus classes) and `targetSize` (its minimum target size classes).
 - `@nicolassancho/ui/styles/theme.css`: the design tokens.
 
 Other paths, such as files inside `dist/`, are not part of the public API. The package is ESM only. It
@@ -553,3 +553,9 @@ works in bundlers (Next.js, Vite, webpack) and in Node's native ESM loader.
   in the compiled JS your `@source` line already scans, so no extra setup is needed.
 - Links in lists (Header, Footer, Breadcrumbs, Pagination, SidebarNav) are at least 24px in each direction, and
   44px on touch screens. Links inside text (`TextLink`) keep the line height.
+- Buttons, chips, fields and the radio's label are 44px tall on touch screens (`pointer: coarse`); large
+  buttons stay 48px. The size is `--target-size` from `theme.css` (24px, 44px on touch). A `className` that
+  sets a height (`h-*`, `min-h-*`) replaces the library's on every device, so a smaller value also makes the
+  control smaller on touch screens.
+- Give your own links in a list, or small controls, the same size with `targetSize`, joined like
+  `focusRing` (``className={`${targetSize} ${focusRing}`}``). It sets `inline-flex` and `items-center`.

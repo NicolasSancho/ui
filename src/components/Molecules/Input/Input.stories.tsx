@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
 import { Button } from "../../Atoms/Button/Button";
+import { expectTargetSize } from "../../../../.storybook/media";
 import { Input } from "./Input";
 import {
   mockedInputDefault,
@@ -31,10 +32,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["media"],
   args: mockedInputDefault,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole("textbox", { name: "Email" });
+    expectTargetSize([input]);
 
     // Clicking the label text focuses the field: the label is a real <label for>.
     await userEvent.click(canvas.getByText("Email"));

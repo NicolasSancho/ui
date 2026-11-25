@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, userEvent, within } from "storybook/test";
-import { expectVisibleBorder } from "../../../../.storybook/media";
+import { expectTargetSize, expectVisibleBorder } from "../../../../.storybook/media";
 import type { LinkComponentProps, LinkComponentType } from "../../types/linkComponent";
 import { ButtonLink } from "./ButtonLink";
 import {
@@ -40,6 +40,7 @@ export const Primary: Story = {
   play: async ({ canvasElement }) => {
     const link = within(canvasElement).getByRole("link", { name: "Shop the collection" });
     expectVisibleBorder(link);
+    expectTargetSize([link]);
 
     await expect(link).toHaveAttribute("href", "/products");
   },

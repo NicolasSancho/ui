@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { action } from "storybook/actions";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
+import { expectTargetSize, expectVisibleFocus } from "../../../../.storybook/media";
 import { CartIcon } from "./CartIcon";
 import {
   mockedCartIconEmpty,
@@ -36,12 +37,24 @@ export const Empty: Story = {
 };
 
 export const SingleItem: Story = {
+  tags: ["media"],
   args: mockedCartIconSingleItem,
   play: async ({ canvasElement }) => {
     // One item reads in the singular.
-    await expect(
-      within(canvasElement).getByRole("button", { name: "Shopping cart, 1 item" })
-    ).toBeVisible();
+    const button = within(canvasElement).getByRole("button", { name: "Shopping cart, 1 item" });
+    await expect(button).toBeVisible();
+    expectTargetSize([button]);
+    // The badge sits on the icon's corner, not on the corner of a larger touch target.
+    // The icon is decorative (aria-hidden), so it has no role to query by.
+    const icon = button.querySelector("svg")?.getBoundingClientRect();
+    const badge = within(button).getByText("1").getBoundingClientRect();
+    await expect(icon).toBeDefined();
+    await expect(Math.abs(badge.right - (icon?.right ?? 0))).toBeLessThanOrEqual(4);
+    await expect(Math.abs(badge.top - (icon?.top ?? 0))).toBeLessThanOrEqual(4);
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    expectVisibleFocus(button);
   },
 };
 

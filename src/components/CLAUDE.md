@@ -104,14 +104,19 @@ Component. The exception is a component that needs interaction, which is a clien
     stay). The radius roles (`rounded-button`, `rounded-field`, `rounded-card`) work because
     `src/components/styles/tv.ts` adds them to tailwind-merge's radius scale. A new custom name
     needs the same entry and a test that a consumer class still wins; colors are safe.
+- With `slots`, a variant value must be a string or a slot object (`true: { base: [...] }`). An array
+  (`true: ["a", focusRing]`) is silently dropped (tailwind-variants 3.3.1; see CartIcon).
 
 ## Visual rules
 
 The Foundations / Controls story shows these and asserts the heights. Shared styles live in
-`src/components/styles/` and are not exported from `src/index.js`, except `focusRing`.
+`src/components/styles/` and are not exported from `src/index.js`, except `focusRing` and `targetSize`.
 
-- Control height: small 32px, medium 40px, large 48px, the same for buttons, chips and fields. Buttons
-  and chips use `min-h-*`, so a long label can wrap. Fields use `h-*`.
+- Control height: small 32px, medium 40px, large 48px, the same for buttons, chips and fields. On touch
+  screens small and medium are 44px: each size reads `--target-size` in one class
+  (`min-h-[max(--spacing(8),var(--target-size))]`), so a consumer's `min-h-*` or `h-*` replaces it on every
+  device. Do not use `pointer-coarse:` size classes: tailwind-merge keeps them next to a consumer's class, and
+  the media rule wins. Buttons and chips use `min-h-*`, so a long label can wrap. Fields use `h-*`.
 - Links: `linkStyles`. `inline` is always underlined, for links in content. `nav` underlines on hover,
   for lists of links. SidebarNav items are a list item style of their own. `TextLink` is the exported
   `inline` link, so apps do not copy link classes.
@@ -134,10 +139,10 @@ conformance. Do not claim WCAG conformance without appropriate testing.
   paints an equivalent instead: ProductCard uses an inset ring on `::after`, and Table's scroll region an
   inset outline.
 - Target size: links in lists are at least 24px in both directions, and 44px on touch screens
-  (`pointer-coarse:`), through `targetSize` from `src/components/styles/targetSize.ts`: the `nav` link
-  style (Header, Footer, Breadcrumbs) and Pagination; SidebarNav links are 44px tall on touch. Their
-  stories test it. Not covered yet: buttons and chips on touch (32/40px), Table sort links (20px, spaced
-  one per header cell) and a small CartIcon (16px). Links in text (`TextLink`, `inline`) are exempt.
+  (`--target-size` in `theme.css`), through `targetSize` from `src/components/styles/targetSize.ts`: the `nav` link
+  style (Header, Footer, Breadcrumbs), Pagination and an interactive CartIcon; SidebarNav links, buttons,
+  chips, fields and the RadioButton label are 44px tall on touch. Their stories test it. Not covered yet:
+  Table sort links (20px, spaced one per header cell). Links in text (`TextLink`, `inline`) are exempt.
 - Forced colors (Windows High Contrast) removes backgrounds, so a filled button keeps its shape only
   through its border: `buttonStyles` gives every variant a border, transparent unless the variant colors it.
 - Stories that check target size and forced colors carry the `media` tag; see "Tests".

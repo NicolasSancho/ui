@@ -15,6 +15,12 @@ const { css } = await postcss([tailwind({ base })]).process(readFileSync(from, "
 assert.match(css, /\.bg-primary\b/, "a class used by the library is missing: check @source");
 // The token comes from `theme.css`, imported through the package `exports` map.
 assert.match(css, /--color-primary:/, "theme tokens are missing: check the theme.css export");
+// The target size reaches the app's CSS with its touch value, or touch screens keep 24px controls.
+assert.match(
+  css,
+  /@media \(pointer: coarse\)\s*\{\s*:root\s*\{\s*--target-size: 44px/,
+  "the touch target size is missing from theme.css"
+);
 
 // The brand contract: every color, radius and font variable the compiled CSS reads is either a brand
 // token (an app may override it) or on the fixed list below. A component that starts reading a new

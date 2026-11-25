@@ -5,6 +5,33 @@ All notable changes to `@nicolassancho/ui` are listed here. Up to 4.11.0 it was 
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## 5.3.0 - 2026-11-24
+
+Controls are 44px tall on touch screens, and an interactive CartIcon shows its focus ring again.
+
+### Added
+
+- `targetSize`: the library's minimum target size classes (24px, 44px on touch screens), so an app's own
+  links and small controls next to library ones get the same size.
+- `--target-size` in `theme.css`: 24px, and 44px on touch screens (`pointer: coarse`). Controls read it, so
+  an app's own height class still replaces theirs on every device.
+
+### Changed
+
+- Small and medium buttons (`Button`, `ButtonLink`, Popover's trigger and close button), chips (`Chip`,
+  `ChipLink`) and fields (`Input`, `Select`) are 44px tall on touch screens (`pointer: coarse`); buttons and
+  chips are also at least 44px wide there. Large buttons stay 48px. Sizes with a mouse do not change.
+- The `RadioButton` label, which is its target, is at least 24px tall, and 44px on touch screens.
+- An interactive `CartIcon` (with `onClick`) is at least 24px in each direction, and 44px on touch screens.
+
+### Fixed
+
+- An interactive `CartIcon` had no focus ring: its focus classes were dropped.
+
+### Migrating
+
+- Controls, fields and radio rows take more room on phones and tablets.
+
 ## 5.2.0 - 2026-11-24
 
 Accessibility gaps found by a consumer: buttons in forced colors, the size of links in lists, and the focus

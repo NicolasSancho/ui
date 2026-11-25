@@ -10,6 +10,7 @@ import { Text } from "../../Atoms/Text/Text";
 import { Input } from "../../Molecules/Input/Input";
 import { Select } from "../../Molecules/Select/Select";
 import { linkStyles } from "../../styles/linkStyles";
+import { expectMediaEmulated } from "../../../../.storybook/media";
 
 /**
  * Documentation-only story with the rules that make components read as one system. Its `play`
@@ -50,9 +51,10 @@ const weights = [
 ];
 
 export const Rules: Story = {
+  tags: ["media"],
   render: () => (
     <div className="flex flex-col gap-8">
-      <Section title="Height: 32, 40 and 48px">
+      <Section title="Height: 32, 40 and 48px; 44, 44 and 48px on touch screens">
         <div className="flex flex-wrap items-center gap-2">
           <Button size="small">Small</Button>
           <Button>Medium</Button>
@@ -117,18 +119,23 @@ export const Rules: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const height = (element: HTMLElement) => element.getBoundingClientRect().height;
+    // Small and medium grow to 44px on touch screens; large is already taller.
+    expectMediaEmulated();
+    const touch = matchMedia("(pointer: coarse)").matches;
+    const small = touch ? 44 : 32;
+    const medium = touch ? 44 : 40;
 
-    await expect(height(canvas.getByRole("button", { name: "Small" }))).toBe(32);
-    await expect(height(canvas.getByRole("button", { name: "Medium" }))).toBe(40);
+    await expect(height(canvas.getByRole("button", { name: "Small" }))).toBe(small);
+    await expect(height(canvas.getByRole("button", { name: "Medium" }))).toBe(medium);
     await expect(height(canvas.getByRole("button", { name: "Large" }))).toBe(48);
-    await expect(height(canvas.getByRole("textbox", { name: "Search" }))).toBe(40);
-    await expect(height(canvas.getByRole("combobox", { name: "Status" }))).toBe(40);
-    await expect(height(canvas.getByRole("button", { name: "Search" }))).toBe(40);
-    await expect(height(canvas.getByRole("button", { name: "Secondary" }))).toBe(40);
-    await expect(height(canvas.getByRole("button", { name: "Outline" }))).toBe(40);
-    await expect(height(canvas.getByRole("button", { name: "Filter" }))).toBe(40);
-    await expect(height(canvas.getByRole("link", { name: "Button link" }))).toBe(40);
-    await expect(height(canvas.getByRole("link", { name: "Chip link" }))).toBe(40);
+    await expect(height(canvas.getByRole("textbox", { name: "Search" }))).toBe(medium);
+    await expect(height(canvas.getByRole("combobox", { name: "Status" }))).toBe(medium);
+    await expect(height(canvas.getByRole("button", { name: "Search" }))).toBe(medium);
+    await expect(height(canvas.getByRole("button", { name: "Secondary" }))).toBe(medium);
+    await expect(height(canvas.getByRole("button", { name: "Outline" }))).toBe(medium);
+    await expect(height(canvas.getByRole("button", { name: "Filter" }))).toBe(medium);
+    await expect(height(canvas.getByRole("link", { name: "Button link" }))).toBe(medium);
+    await expect(height(canvas.getByRole("link", { name: "Chip link" }))).toBe(medium);
   },
 };
 
